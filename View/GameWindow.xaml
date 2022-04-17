@@ -6,15 +6,326 @@
         xmlns:local="clr-namespace:Hangman.ViewModel"
         mc:Ignorable="d"
         Title="GameWindow"
-        Height="450" 
+        Height="500" 
         Width="800"
-        MinHeight="450"
+        MinHeight="600"
         MinWidth="800"
         Left="125"
         Top="125"
+        ResizeMode="CanMinimize"
         Icon="..\Images\Icon.png">
-    
-    <Grid>
-        
+
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <Menu Background="MediumPurple"
+              Grid.Row="0"
+              Grid.ColumnSpan="5"
+              FontSize="14">
+
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Left"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+
+            <MenuItem Header="File"
+                      Background="AliceBlue">
+                <MenuItem Header="New game"
+                          Command="{Binding Path=NewGame}"/>
+                <MenuItem Header="Load game"
+                          Command="{Binding Path=LoadGame}"/>
+                <Separator/>
+                <MenuItem Header="Save game"
+                          Command="{Binding Path=SaveGame}"/>
+                <MenuItem Header="Statistics"
+                          Command="{Binding Path=Statistics}"/>
+                <Separator/>
+                <MenuItem Header="Exit"
+                          Command="{Binding Path=Exit}"/>
+            </MenuItem>
+
+            <MenuItem Header="Categories"
+                      Background="AliceBlue">
+                <MenuItem Header="All categories"
+                          Command="{Binding Path=AllCategories}"/>
+                <MenuItem Header="Animals"
+                          Command="{Binding Path=Animals}"/>
+                <MenuItem Header="Flowers"
+                          Command="{Binding Path=Flowers}"/>
+                <MenuItem Header="Countries"
+                          Command="{Binding Path=Countries}"/>
+            </MenuItem>
+
+            <MenuItem Header="Help"
+                      Background="AliceBlue">
+                <MenuItem Header="About"
+                          Command="{Binding Path=About}"/>
+            </MenuItem>
+        </Menu>
+
+        <TextBlock Text="Cristian"
+                   Foreground="Black"
+                   FontSize="25"
+                   FontWeight="Bold"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,50"/>
+        <TextBlock Text="Level 1"
+                   Foreground="Black"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Margin="0,50,0,0"/>
+
+        <Ellipse Grid.Row="1"
+                 Grid.Column="1"
+                 Height="80"
+                 Width="80"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Right"
+                 Margin="0,0,20,0">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="..\Images\UserImages\user1.png"/>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <TextBlock Name="timer"
+                   Text="Timer: 30"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Grid.Row="1"
+                   Grid.Column="3"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   Margin="20,0,0,0">
+        </TextBlock>
+
+        <TextBlock Name="state"
+                   Text="You have won!"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Grid.Row="1"
+                   Grid.Column="3"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"
+                   Margin="0,0,20,0">
+        </TextBlock>
+
+        <Rectangle Grid.Row="2"
+                   Grid.Column="1"
+                   Height="335"
+                   Width="245"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="..\Images\HangmanImages\hang0.png"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Grid Grid.Row="2"
+              Grid.Column="3"
+              Height="60"
+              VerticalAlignment="Top"
+              Margin="0,10,0,0">
+            <Rectangle Height="40"
+                        Width="40"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="0,10,360,0">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="..\Images\HangmanImages\hang1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle Height="40"
+                        Width="40"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="0,10,240,0">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="..\Images\HangmanImages\hang2.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle Height="40"
+                        Width="40"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="0,10,120,0">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="..\Images\HangmanImages\hang3.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle Height="40"
+                        Width="40"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="0,10,0,0">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="..\Images\HangmanImages\hang4.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle Height="40"
+                        Width="40"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="120,10,0,0">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="..\Images\HangmanImages\hang5.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle Height="40"
+                        Width="40"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="240,10,0,0">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="..\Images\HangmanImages\hang6.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle Height="40"
+                        Width="40"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="360,10,0,0">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="..\Images\HangmanImages\hang7.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Grid>
+
+        <Grid Grid.Row="2"
+              Grid.Column="3"
+              VerticalAlignment="Bottom"
+              Height="150"
+              Margin="0,0,0,10">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA5A5A5"/>
+                    <GradientStop Color="#FFCACACA" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Button Content="Q" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="0,10,405,0"/>
+            <Button Content="W" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="0,10,315,0"/>
+            <Button Content="E" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="0,10,225,0"/>
+            <Button Content="R" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="0,10,135,0"/>
+            <Button Content="T" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="0,10,45,0"/>
+            <Button Content="Y" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="45,10,0,0"/>
+            <Button Content="U" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="135,10,0,0"/>
+            <Button Content="I" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="225,10,0,0"/>
+            <Button Content="O" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="315,10,0,0"/>
+            <Button Content="P" Height="30" Width="30"
+                    VerticalAlignment="Top"
+                    Margin="405,10,0,0"/>
+
+            <Button Content="A" Height="30" Width="30"
+                    VerticalAlignment="Center"
+                    Margin="0,0,360,0"/>
+            <Button Content="S" Height="30" Width="30"
+                    VerticalAlignment="Center"
+                    Margin="0,0,270,0"/>
+            <Button Content="D" Height="30" Width="30"
+                    VerticalAlignment="Center"
+                    Margin="0,0,180,0"/>
+            <Button Content="F" Height="30" Width="30"
+                    VerticalAlignment="Center"
+                    Margin="0,0,90,0"/>
+            <Button Content="G" Height="30" Width="30"
+                    VerticalAlignment="Center"
+                    Margin="0,0,0,0"/>
+            <Button Content="H" Height="30" Width="30"
+                    VerticalAlignment="Center"
+                    Margin="90,0,0,0"/>
+            <Button Content="J" Height="30" Width="30"
+                    VerticalAlignment="Center"
+                    Margin="180,0,0,0"/>
+            <Button Content="K" Height="30" Width="30"
+                    VerticalAlignment="Center"
+                    Margin="270,0,0,0"/>
+            <Button Content="L" Height="30" Width="30"
+                    VerticalAlignment="Center"
+                    Margin="360,0,0,0"/>
+
+            <Button Content="Z" Height="30" Width="30"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,315,10"/>
+            <Button Content="X" Height="30" Width="30"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,225,10"/>
+            <Button Content="C" Height="30" Width="30"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,135,10"/>
+            <Button Content="V" Height="30" Width="30"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,45,10"/>
+            <Button Content="B" Height="30" Width="30"
+                    VerticalAlignment="Bottom"
+                    Margin="45,0,0,10"/>
+            <Button Content="N" Height="30" Width="30"
+                    VerticalAlignment="Bottom"
+                    Margin="135,0,0,10"/>
+            <Button Content="M" Height="30" Width="30"
+                    VerticalAlignment="Bottom"
+                    Margin="225,0,0,10"/>
+        </Grid>
+
+        <TextBlock Text="Category"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Grid.Row="3"
+                   Grid.Column="1"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center">
+
+        </TextBlock>
+        <TextBlock Text="Word"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Grid.Row="3"
+                   Grid.Column="3"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center">
+
+        </TextBlock>
     </Grid>
 </Window>
