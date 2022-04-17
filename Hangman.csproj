@@ -144,5 +144,11 @@
     <Resource Include="Images\HangmanImages\hang7.png" />
     <Resource Include="Images\HangmanImages\wrong.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Photo.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
