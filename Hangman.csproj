@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\LoginCommands.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="View\StatisticsWindow.xaml.cs">
       <DependentUpon>StatisticsWindow.xaml</DependentUpon>
     </Compile>
@@ -117,7 +121,28 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
-    <Folder Include="ViewModel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UserImages\user1.png" />
+    <Resource Include="Images\UserImages\user2.png" />
+    <Resource Include="Images\UserImages\user3.png" />
+    <Resource Include="Images\UserImages\user4.png" />
+    <Resource Include="Images\UserImages\user5.png" />
+    <Resource Include="Images\UserImages\user6.png" />
+    <Resource Include="Images\UserImages\user7.png" />
+    <Resource Include="Images\UserImages\user8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HangmanImages\correct.png" />
+    <Resource Include="Images\HangmanImages\hang0.png" />
+    <Resource Include="Images\HangmanImages\hang1.png" />
+    <Resource Include="Images\HangmanImages\hang2.png" />
+    <Resource Include="Images\HangmanImages\hang3.png" />
+    <Resource Include="Images\HangmanImages\hang4.png" />
+    <Resource Include="Images\HangmanImages\hang5.png" />
+    <Resource Include="Images\HangmanImages\hang6.png" />
+    <Resource Include="Images\HangmanImages\hang7.png" />
+    <Resource Include="Images\HangmanImages\wrong.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
