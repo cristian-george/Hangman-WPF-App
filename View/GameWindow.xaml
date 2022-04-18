@@ -68,8 +68,8 @@
                           Command="{Binding Path=AllCategories}"/>
                 <MenuItem Header="Animals"
                           Command="{Binding Path=Animals}"/>
-                <MenuItem Header="Flowers"
-                          Command="{Binding Path=Flowers}"/>
+                <MenuItem Header="Plants"
+                          Command="{Binding Path=Plants}"/>
                 <MenuItem Header="Countries"
                           Command="{Binding Path=Countries}"/>
             </MenuItem>

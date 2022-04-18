@@ -129,7 +129,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Categories\countries.txt" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\UserImages\user1.png" />
     <Resource Include="Images\UserImages\user2.png" />
@@ -157,6 +159,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Photo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Categories\animals.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Categories\plants.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

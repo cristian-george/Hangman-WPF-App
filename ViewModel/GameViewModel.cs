@@ -120,18 +120,18 @@ namespace Hangman.ViewModel
         { }
         #endregion
 
-        #region Flowers
-        private ICommand m_flowers;
-        public ICommand Flowers
+        #region Plants
+        private ICommand m_plants;
+        public ICommand Plants
         {
             get
             {
-                if (m_flowers == null)
-                    m_flowers = new RelayCommand(SelectFlowers);
-                return m_flowers;
+                if (m_plants == null)
+                    m_plants = new RelayCommand(SelectPlants);
+                return m_plants;
             }
         }
-        public void SelectFlowers(object parameter)
+        public void SelectPlants(object parameter)
         { }
         #endregion
 
