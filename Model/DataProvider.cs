@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace Hangman.Model
 {
@@ -30,5 +31,14 @@ namespace Hangman.Model
         public static Button B { get; set; }
         public static Button N { get; set; }
         public static Button M { get; set; }
+
+        public static Rectangle Rectangle1 { get; set; }
+        public static Rectangle Rectangle2 { get; set; }
+        public static Rectangle Rectangle3 { get; set; }
+        public static Rectangle Rectangle4 { get; set; }
+        public static Rectangle Rectangle5 { get; set; }
+        public static Rectangle Rectangle6 { get; set; }
+        public static Rectangle Rectangle7 { get; set; }
+
     }
 }

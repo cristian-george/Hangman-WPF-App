@@ -10,11 +10,12 @@ namespace Hangman.View
             InitializeComponent();
 
             InitializeKeyboard();
+            InitializeRectangles();
         }
 
         public void InitializeKeyboard()
         {
-            #region Initialize keyboard
+            #region Keyboard
             DataProvider.Q = Q;
             DataProvider.W = W;
             DataProvider.E = E;
@@ -43,6 +44,19 @@ namespace Hangman.View
             DataProvider.B = B;
             DataProvider.N = N;
             DataProvider.M = M;
+            #endregion
+        }
+
+        public void InitializeRectangles()
+        {
+            #region Rectangles
+            DataProvider.Rectangle1 = Rectangle1;
+            DataProvider.Rectangle2 = Rectangle2;
+            DataProvider.Rectangle3 = Rectangle3;
+            DataProvider.Rectangle4 = Rectangle4;
+            DataProvider.Rectangle5 = Rectangle5;
+            DataProvider.Rectangle6 = Rectangle6;
+            DataProvider.Rectangle7 = Rectangle7;
             #endregion
         }
     }

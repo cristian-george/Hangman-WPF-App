@@ -204,9 +204,52 @@ namespace Hangman.ViewModel
             DataProvider.M.IsEnabled = false;
         }
 
+        void ShowRectangles()
+        {
+            switch (wrongChoices)
+            {
+                case 1:
+                    DataProvider.Rectangle1.Visibility = Visibility.Visible;
+                    break;
+                case 2:
+                    DataProvider.Rectangle2.Visibility = Visibility.Visible;
+                    break;
+                case 3:
+                    DataProvider.Rectangle3.Visibility = Visibility.Visible;
+                    break;
+                case 4:
+                    DataProvider.Rectangle4.Visibility = Visibility.Visible;
+                    break;
+                case 5:
+                    DataProvider.Rectangle5.Visibility = Visibility.Visible;
+                    break;
+                case 6:
+                    DataProvider.Rectangle6.Visibility = Visibility.Visible;
+                    break;
+                case 7:
+                    DataProvider.Rectangle7.Visibility = Visibility.Visible;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        void HideRectangles()
+        {
+            DataProvider.Rectangle1.Visibility = Visibility.Hidden;
+            DataProvider.Rectangle2.Visibility = Visibility.Hidden;
+            DataProvider.Rectangle3.Visibility = Visibility.Hidden;
+            DataProvider.Rectangle4.Visibility = Visibility.Hidden;
+            DataProvider.Rectangle5.Visibility = Visibility.Hidden;
+            DataProvider.Rectangle6.Visibility = Visibility.Hidden;
+            DataProvider.Rectangle7.Visibility = Visibility.Hidden;
+        }
+
         void InitializeGame()
         {
             EnableKeys();
+            HideRectangles();
+
             game = new Game(Category);
 
             timer.Start();
@@ -234,6 +277,8 @@ namespace Hangman.ViewModel
             Category = "None";
 
             HangmanImage = "..\\Images\\HangmanImages\\hang0.png";
+
+            HideRectangles();
         }
 
         bool HasWon()
@@ -298,6 +343,8 @@ namespace Hangman.ViewModel
             else
             {
                 ++wrongChoices;
+                ShowRectangles();
+
                 HangmanImage = "..\\Images\\HangmanImages\\hang" + wrongChoices.ToString() + ".png";
 
                 if (HasLost())
