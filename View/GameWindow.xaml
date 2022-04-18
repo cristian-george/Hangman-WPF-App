@@ -9,11 +9,15 @@
         Height="500" 
         Width="800"
         MinHeight="600"
-        MinWidth="800"
+        MinWidth="900"
         Left="125"
         Top="125"
         ResizeMode="CanMinimize"
         Icon="..\Images\Icon.png">
+
+    <Window.DataContext>
+        <local:GameViewModel/>
+    </Window.DataContext>
 
     <Grid Background="LightGray">
         <Grid.RowDefinitions>
@@ -26,7 +30,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
@@ -45,12 +49,12 @@
             <MenuItem Header="File"
                       Background="AliceBlue">
                 <MenuItem Header="New game"
-                          Command="{Binding Path=NewGame}"/>
+                          Command="{Binding Path=New}"/>
                 <MenuItem Header="Load game"
-                          Command="{Binding Path=LoadGame}"/>
+                          Command="{Binding Path=Load}"/>
                 <Separator/>
                 <MenuItem Header="Save game"
-                          Command="{Binding Path=SaveGame}"/>
+                          Command="{Binding Path=Save}"/>
                 <MenuItem Header="Statistics"
                           Command="{Binding Path=Statistics}"/>
                 <Separator/>
@@ -143,7 +147,7 @@
               Grid.Column="3"
               Height="60"
               VerticalAlignment="Top"
-              Margin="0,10,0,0">
+              Margin="0,20,0,0">
             <Rectangle Height="40"
                         Width="40"
                         VerticalAlignment="Top"
@@ -218,7 +222,7 @@
         <Grid Grid.Row="2"
               Grid.Column="3"
               VerticalAlignment="Bottom"
-              Height="150"
+              Height="120"
               Margin="0,0,0,10">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -227,86 +231,138 @@
                 </LinearGradientBrush>
             </Grid.Background>
 
-            <Button Content="Q" Height="30" Width="30"
+            <Button x:Name="Q"
+                    Content="Q" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="0,10,405,0"/>
-            <Button Content="W" Height="30" Width="30"
+                    Margin="0,10,405,0"
+                    Command="{Binding Path=PressQ}"/>
+            <Button x:Name="W"
+                    Content="W" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="0,10,315,0"/>
-            <Button Content="E" Height="30" Width="30"
+                    Margin="0,10,315,0"
+                    Command="{Binding Path=PressW}"/>
+            <Button x:Name="E"
+                    Content="E" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="0,10,225,0"/>
-            <Button Content="R" Height="30" Width="30"
+                    Margin="0,10,225,0"
+                    Command="{Binding Path=PressE}"/>
+            <Button x:Name="R"
+                    Content="R" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="0,10,135,0"/>
-            <Button Content="T" Height="30" Width="30"
+                    Margin="0,10,135,0"
+                    Command="{Binding Path=PressR}"/>
+            <Button x:Name="T"
+                    Content="T" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="0,10,45,0"/>
-            <Button Content="Y" Height="30" Width="30"
+                    Margin="0,10,45,0"
+                    Command="{Binding Path=PressT}"/>
+            <Button x:Name="Y"
+                    Content="Y" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="45,10,0,0"/>
-            <Button Content="U" Height="30" Width="30"
+                    Margin="45,10,0,0"
+                    Command="{Binding Path=PressY}"/>
+            <Button x:Name="U"
+                    Content="U" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="135,10,0,0"/>
-            <Button Content="I" Height="30" Width="30"
+                    Margin="135,10,0,0"
+                    Command="{Binding Path=PressU}"/>
+            <Button x:Name="I"
+                    Content="I" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="225,10,0,0"/>
-            <Button Content="O" Height="30" Width="30"
+                    Margin="225,10,0,0"
+                    Command="{Binding Path=PressI}"/>
+            <Button x:Name="O"
+                    Content="O" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="315,10,0,0"/>
-            <Button Content="P" Height="30" Width="30"
+                    Margin="315,10,0,0"
+                    Command="{Binding Path=PressO}"/>
+            <Button x:Name="P"
+                    Content="P" Height="30" Width="30"
                     VerticalAlignment="Top"
-                    Margin="405,10,0,0"/>
+                    Margin="405,10,0,0"
+                    Command="{Binding Path=PressP}"/>
 
-            <Button Content="A" Height="30" Width="30"
+            <Button x:Name="A"
+                    Content="A" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="0,0,360,0"/>
-            <Button Content="S" Height="30" Width="30"
+                    Margin="0,0,360,0"
+                    Command="{Binding Path=PressA}"/>
+            <Button x:Name="S"
+                    Content="S" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="0,0,270,0"/>
-            <Button Content="D" Height="30" Width="30"
+                    Margin="0,0,270,0"
+                    Command="{Binding Path=PressS}"/>
+            <Button x:Name="D"
+                    Content="D" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="0,0,180,0"/>
-            <Button Content="F" Height="30" Width="30"
+                    Margin="0,0,180,0"
+                    Command="{Binding Path=PressD}"/>
+            <Button x:Name="F"
+                    Content="F" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="0,0,90,0"/>
-            <Button Content="G" Height="30" Width="30"
+                    Margin="0,0,90,0"
+                    Command="{Binding Path=PressF}"/>
+            <Button x:Name="G"
+                    Content="G" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="0,0,0,0"/>
-            <Button Content="H" Height="30" Width="30"
+                    Margin="0,0,0,0"
+                    Command="{Binding Path=PressG}"/>
+            <Button x:Name="H"
+                    Content="H" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="90,0,0,0"/>
-            <Button Content="J" Height="30" Width="30"
+                    Margin="90,0,0,0"
+                    Command="{Binding Path=PressH}"/>
+            <Button x:Name="J"
+                    Content="J" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="180,0,0,0"/>
-            <Button Content="K" Height="30" Width="30"
+                    Margin="180,0,0,0"
+                    Command="{Binding Path=PressJ}"/>
+            <Button x:Name="K"
+                    Content="K" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="270,0,0,0"/>
-            <Button Content="L" Height="30" Width="30"
+                    Margin="270,0,0,0"
+                    Command="{Binding Path=PressK}"/>
+            <Button x:Name="L"
+                    Content="L" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="360,0,0,0"/>
+                    Margin="360,0,0,0"
+                    Command="{Binding Path=PressL}"/>
 
-            <Button Content="Z" Height="30" Width="30"
+            <Button x:Name="Z"
+                    Content="Z" Height="30" Width="30"
                     VerticalAlignment="Bottom"
-                    Margin="0,0,315,10"/>
-            <Button Content="X" Height="30" Width="30"
+                    Margin="0,0,315,10"
+                    Command="{Binding Path=PressZ}"/>
+            <Button x:Name="X"
+                    Content="X" Height="30" Width="30"
                     VerticalAlignment="Bottom"
-                    Margin="0,0,225,10"/>
-            <Button Content="C" Height="30" Width="30"
+                    Margin="0,0,225,10"
+                    Command="{Binding Path=PressX}"/>
+            <Button x:Name="C"
+                    Content="C" Height="30" Width="30"
                     VerticalAlignment="Bottom"
-                    Margin="0,0,135,10"/>
-            <Button Content="V" Height="30" Width="30"
+                    Margin="0,0,135,10"
+                    Command="{Binding Path=PressC}"/>
+            <Button x:Name="V"
+                    Content="V" Height="30" Width="30"
                     VerticalAlignment="Bottom"
-                    Margin="0,0,45,10"/>
-            <Button Content="B" Height="30" Width="30"
+                    Margin="0,0,45,10"
+                    Command="{Binding Path=PressV}"/>
+            <Button x:Name="B"
+                    Content="B" Height="30" Width="30"
                     VerticalAlignment="Bottom"
-                    Margin="45,0,0,10"/>
-            <Button Content="N" Height="30" Width="30"
+                    Margin="45,0,0,10"
+                    Command="{Binding Path=PressB}"/>
+            <Button x:Name="N"
+                    Content="N" Height="30" Width="30"
                     VerticalAlignment="Bottom"
-                    Margin="135,0,0,10"/>
-            <Button Content="M" Height="30" Width="30"
+                    Margin="135,0,0,10"
+                    Command="{Binding Path=PressN}"/>
+            <Button x:Name="M"
+                    Content="M" Height="30" Width="30"
                     VerticalAlignment="Bottom"
-                    Margin="225,0,0,10"/>
+                    Margin="225,0,0,10"
+                    Command="{Binding Path=PressM}"/>
         </Grid>
 
         <TextBlock Text="Category"

@@ -28,7 +28,7 @@ namespace Hangman.View
 
         public void CreateDialogBox(List<string> values)
         {
-            dialogBoxWindow.Height = (values.Count * 2 * 25) + 75;
+            dialogBoxWindow.Height = (values.Count * 2 * 25) + 90;
             int index = 1;
             foreach (string val in values)
             {

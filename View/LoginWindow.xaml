@@ -6,10 +6,8 @@
         xmlns:local="clr-namespace:Hangman.ViewModel"
         mc:Ignorable="d"
         Title="LoginWindow" 
-        Height="450" 
-        Width="800"
-        MinHeight="450"
-        MinWidth="800"
+        Height="600" 
+        Width="900"
         Left="125"
         Top="125"
         ResizeMode="CanMinimize"
@@ -30,7 +28,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
@@ -42,11 +40,12 @@
                FontWeight="Bold"
                HorizontalAlignment="Center">
         </Label>
-        <ListView Grid.Row="2"
-                 Grid.Column="1"
-                 ScrollViewer.CanContentScroll="True"
-                 ItemsSource="{Binding Path=Users}"
-                 SelectedItem="{Binding Path=SelectedUser}">
+        <ListView Name="listView"
+                  Grid.Row="2"
+                  Grid.Column="1"
+                  ScrollViewer.CanContentScroll="True"
+                  ItemsSource="{Binding Path=Users}"
+                  SelectedItem="{Binding Path=SelectedUser}">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -61,9 +60,10 @@
 
         <Ellipse Grid.Row="2"
                  Grid.Column="3"
-                 Height="200"
-                 Width="200"
-                 VerticalAlignment="Top">
+                 Height="250"
+                 Width="250"
+                 VerticalAlignment="Center"
+                 Margin="0,0,0,100">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding Path=SelectedImage}"/>
             </Ellipse.Fill>
@@ -77,7 +77,6 @@
                 Width="100"
                 VerticalAlignment="Bottom"
                 Margin="0,0,230,20"
-                IsEnabled="False"
                 Command="{Binding Path=PreviousCommand}"/>
         <Button Content="Next"
                 FontSize="15"
@@ -87,7 +86,6 @@
                 Width="100"
                 VerticalAlignment="Bottom"
                 Margin="0,0,-230,20"
-                IsEnabled="False"
                 Command="{Binding Path=NextCommand}"/>
 
         <Button Content="New User"
@@ -105,8 +103,19 @@
                 Height="30"
                 Width="150"
                 HorizontalAlignment="Right"
-                IsEnabled="False"
-                Command="{Binding Path=DeleteUserCommand}"/>
+                Command="{Binding Path=DeleteUserCommand}">
+            <Button.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding ="{Binding ElementName=listView, Path=SelectedIndex}" 
+                                     Value="-1">
+                            <Setter Property="Button.IsEnabled" 
+                                    Value="false"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
         <Button Content="Play"
                 FontSize="15"
                 Grid.Row="3"
@@ -114,8 +123,19 @@
                 Height="30"
                 Width="150"
                 HorizontalAlignment="Left"
-                IsEnabled="False"
-                Command="{Binding Path=PlayCommand}"/>
+                Command="{Binding Path=PlayCommand}">
+            <Button.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding ="{Binding ElementName=listView, Path=SelectedIndex}" 
+                                     Value="-1">
+                            <Setter Property="Button.IsEnabled" 
+                                    Value="false"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
         <Button Content="Exit"
                 FontSize="15"
                 Grid.Row="3"

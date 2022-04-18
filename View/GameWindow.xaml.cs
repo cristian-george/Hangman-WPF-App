@@ -1,27 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hangman.Model;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Hangman.View
 {
-    /// <summary>
-    /// Interaction logic for GameWindow.xaml
-    /// </summary>
     public partial class GameWindow : Window
     {
         public GameWindow()
         {
             InitializeComponent();
+
+            #region Initialize keyboard
+            DataProvider.Q = Q;
+            DataProvider.W = W;
+            DataProvider.E = E;
+            DataProvider.R = R;
+            DataProvider.T = T;
+            DataProvider.Y = Y;
+            DataProvider.U = U;
+            DataProvider.I = I;
+            DataProvider.O = O;
+            DataProvider.P = P;
+            DataProvider.A = A;
+            DataProvider.S = S;
+            DataProvider.D = D;
+            DataProvider.F = F;
+            DataProvider.G = G;
+            DataProvider.H = H;
+            DataProvider.J = J;
+            DataProvider.K = K;
+            DataProvider.L = L;
+            DataProvider.Z = Z;
+            DataProvider.X = X;
+            DataProvider.C = C;
+            DataProvider.V = V;
+            DataProvider.B = B;
+            DataProvider.N = N;
+            DataProvider.M = M;
+            #endregion
         }
     }
 }

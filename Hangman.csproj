@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\DataProvider.cs" />
+    <Compile Include="Model\UserImage.cs" />
+    <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Model\User.cs" />

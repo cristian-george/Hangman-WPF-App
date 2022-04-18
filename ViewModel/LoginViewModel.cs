@@ -3,7 +3,6 @@ using Hangman.Model;
 using Hangman.View;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Hangman.ViewModel
@@ -12,27 +11,24 @@ namespace Hangman.ViewModel
     {
         public ObservableCollection<User> Users { get; set; }
         public Collection<string> Images { get; set; }
-
         public User SelectedUser { get; set; }
         public string SelectedImage { get; set; }
 
+        private static int m_SelectedImageIndex = 0;
+
         public LoginViewModel()
         {
-            Users = new ObservableCollection<User>
-            {
-                new User("Cristian")
-            };
-
+            Users = new ObservableCollection<User>();
             Images = new Collection<string>();
 
-            for (int i = 1; i < 9; ++i)
+            int avatars = 8;
+            for (int id = 1; id <= avatars; ++id)
             {
-                string imagePath = "..\\Images\\UserImages\\user" + i.ToString() + ".png";
+                string imagePath = UserImage.GetImage(id);
                 Images.Add(imagePath);
             }
 
-            SelectedUser = Users[0];
-            SelectedImage = Images[0];
+            SelectedImage = Images[m_SelectedImageIndex];
         }
 
 
@@ -82,6 +78,7 @@ namespace Hangman.ViewModel
 
         public void DeleteUser(object parameter)
         {
+            Users.Remove(SelectedUser);
         }
         #endregion
 
@@ -99,6 +96,11 @@ namespace Hangman.ViewModel
 
         public void Play(object parameter)
         {
+            SelectedUser.ImagePath = SelectedImage;
+            GameWindow gameWindow = new GameWindow();
+            gameWindow.Show();
+
+            System.Windows.Application.Current.Windows[0].Close();
         }
         #endregion
 
@@ -134,6 +136,9 @@ namespace Hangman.ViewModel
 
         public void Previous(object parameter)
         {
+            m_SelectedImageIndex = (m_SelectedImageIndex - 1 + Images.Count) % Images.Count;
+            SelectedImage = Images[m_SelectedImageIndex];
+            NotifyPropertyChanged("SelectedImage");
         }
         #endregion
 
@@ -151,6 +156,9 @@ namespace Hangman.ViewModel
 
         public void Next(object parameter)
         {
+            m_SelectedImageIndex = (m_SelectedImageIndex + 1 + Images.Count) % Images.Count;
+            SelectedImage = Images[m_SelectedImageIndex];
+            NotifyPropertyChanged("SelectedImage");
         }
         #endregion
     }
