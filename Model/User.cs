@@ -1,4 +1,5 @@
 ﻿using Hangman.ViewModel;
+using System;
 
 namespace Hangman.Model
 {
@@ -9,6 +10,8 @@ namespace Hangman.Model
 
         public int GamesPlayed { get; set; }
         public int GamesWon { get; set; }
+
+        public User() { }
 
         public User(string username, string imagePath = "")
         {

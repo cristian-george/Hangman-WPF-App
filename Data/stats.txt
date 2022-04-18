@@ -1,0 +1,3 @@
+﻿Cristian 10 5
+Maria 15 7
+Razvan 9 4

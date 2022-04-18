@@ -24,7 +24,7 @@ namespace Hangman.ViewModel
             int avatars = 8;
             for (int id = 1; id <= avatars; ++id)
             {
-                string imagePath = UserImage.GetImage(id);
+                string imagePath = ImageHelper.GetAvatar(id);
                 Images.Add(imagePath);
             }
 

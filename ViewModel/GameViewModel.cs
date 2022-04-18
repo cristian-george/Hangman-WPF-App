@@ -1,6 +1,8 @@
 ﻿using Hangman.Commands;
 using Hangman.Model;
 using Hangman.View;
+using Microsoft.Win32;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -109,30 +111,12 @@ namespace Hangman.ViewModel
 
         #endregion
 
+        #region Private members and constructor
         private Game game;
 
         private int level;
         private int wrongChoices;
         private string originalWord;
-
-        private readonly System.Windows.Threading.DispatcherTimer timer;
-        private void DispatcherTimer_Tick(object sender, System.EventArgs e)
-        {
-            ++ProgressBar;
-            if (ProgressBar >= 30)
-            {
-                timer.Stop();
-                ProgressBar = 30;
-
-                GameState = "You have lost!";
-                MessageBox.Show("The word was " + originalWord + "!");
-
-                System.Threading.Thread.Sleep(2000);
-
-                ResetUi();
-                DisableKeys();
-            }
-        }
 
         public GameViewModel()
         {
@@ -140,10 +124,11 @@ namespace Hangman.ViewModel
             HangmanImage = "..\\Images\\HangmanImages\\hang0.png";
             Category = "None";
 
-            timer = new System.Windows.Threading.DispatcherTimer();
-            timer.Tick += new System.EventHandler(DispatcherTimer_Tick);
-            timer.Interval = new System.TimeSpan(0, 0, 1);
+            InitializeTimer();
         }
+        #endregion
+
+        #region Ui elements
 
         void EnableKeys()
         {
@@ -245,6 +230,38 @@ namespace Hangman.ViewModel
             DataProvider.Rectangle7.Visibility = Visibility.Hidden;
         }
 
+        #endregion
+
+        #region Timer
+        private System.Windows.Threading.DispatcherTimer timer;
+        private void DispatcherTimer_Tick(object sender, System.EventArgs e)
+        {
+            ++ProgressBar;
+            if (ProgressBar >= 30)
+            {
+                timer.Stop();
+                ProgressBar = 30;
+
+                GameState = "You have lost!";
+                MessageBox.Show("The word was " + originalWord + "!");
+
+                System.Threading.Thread.Sleep(2000);
+
+                ResetGame();
+                DisableKeys();
+            }
+        }
+
+        void InitializeTimer()
+        {
+            timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Tick += new System.EventHandler(DispatcherTimer_Tick);
+            timer.Interval = new System.TimeSpan(0, 0, 1);
+        }
+        #endregion
+
+        #region Game functionalities
+
         void InitializeGame()
         {
             EnableKeys();
@@ -263,8 +280,7 @@ namespace Hangman.ViewModel
             GameState = "";
             HangmanImage = "..\\Images\\HangmanImages\\hang0.png";
         }
-
-        void ResetUi()
+        void ResetGame()
         {
             level = 1;
             NotifyPropertyChanged("FullLevel");
@@ -307,7 +323,6 @@ namespace Hangman.ViewModel
 
             return false;
         }
-
         bool HasLost()
         {
             if (wrongChoices == 7)
@@ -319,7 +334,7 @@ namespace Hangman.ViewModel
 
                 System.Threading.Thread.Sleep(2000);
 
-                ResetUi();
+                ResetGame();
                 DisableKeys();
 
                 return true;
@@ -351,7 +366,6 @@ namespace Hangman.ViewModel
                     return;
             }
         }
-
         private string FormatingWord()
         {
             string word = "";
@@ -364,6 +378,8 @@ namespace Hangman.ViewModel
             word.Remove(word.Length - 1);
             return word;
         }
+
+        #endregion
 
         #region Commands
 
@@ -403,7 +419,47 @@ namespace Hangman.ViewModel
             }
         }
         public void LoadGame(object parameter)
-        { }
+        {
+            OpenFileDialog openFile = new OpenFileDialog
+            {
+                Title = "Select a file",
+                Filter = "Text document (*.txt)|*.txt|All files (*.*)|*.*"
+            };
+
+            if (openFile.ShowDialog() == true)
+            {
+                string filePath = openFile.FileName;
+
+                StreamReader streamReader = new StreamReader(File.OpenRead(filePath));
+                string fileContent = streamReader.ReadToEnd();
+                streamReader.Dispose();
+
+                string[] separators = new string[] { "\r\n" };
+                string[] lines = fileContent.Split(separators, System.StringSplitOptions.None);
+
+                if (lines[0].Equals(user.Username))
+                {
+                    level = int.Parse(lines[1]);
+                    wrongChoices = int.Parse(lines[2]);
+                    ProgressBar = int.Parse(lines[3]);
+                    Category = lines[4];
+                    originalWord = lines[5];
+                    UnderscoreWord = lines[6];
+
+                    NotifyPropertyChanged("FullLevel");
+
+                    timer.Start();
+                    EnableKeys();
+
+                    for (int i = 1; i <= wrongChoices; ++i)
+                        ShowRectangles();
+                }
+                else
+                {
+                    MessageBox.Show("You cannot load other player's game!");
+                }
+            }
+        }
         #endregion
 
         #region Save game
@@ -418,7 +474,27 @@ namespace Hangman.ViewModel
             }
         }
         public void SaveGame(object parameter)
-        { }
+        {
+            SaveFileDialog saveFile = new SaveFileDialog
+            {
+                FileName = "game",
+                Filter = "Text document (*.txt)|*.txt|All files (*.*)|*.*"
+            };
+
+            if (saveFile.ShowDialog() == true)
+            {
+                string filePath = saveFile.FileName;
+                string fileContent = "";
+                fileContent += user.Username + "\n";
+                fileContent += level.ToString() + "\n";
+                fileContent += wrongChoices.ToString() + "\n";
+                fileContent += category.ToString() + "\n";
+                fileContent += originalWord + "\n";
+                fileContent += underscoreWord;
+
+                File.WriteAllText(filePath, fileContent);
+            }
+        }
         #endregion
 
         #region Statistics
