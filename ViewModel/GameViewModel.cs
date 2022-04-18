@@ -8,6 +8,8 @@ namespace Hangman.ViewModel
 {
     internal class GameViewModel : BaseViewModel
     {
+        #region Properties
+
         private User user;
         public User User
         {
@@ -22,16 +24,29 @@ namespace Hangman.ViewModel
             }
         }
 
-        public int Level { get; set; }
         public string FullLevel
         {
             get
             {
-                return "Level: " + Level.ToString();
+                return "Level: " + level.ToString();
             }
         }
 
-        public string HangmanImage { get; set; }
+
+        private string hangmanImage;
+        public string HangmanImage
+        {
+            get
+            {
+                return hangmanImage;
+            }
+            set
+            {
+                hangmanImage = value;
+                NotifyPropertyChanged("HangmanImage");
+            }
+        }
+
 
         private string category;
         public string Category
@@ -47,6 +62,7 @@ namespace Hangman.ViewModel
             }
         }
 
+
         private string underscoreWord;
         public string UnderscoreWord
         {
@@ -61,16 +77,21 @@ namespace Hangman.ViewModel
             }
         }
 
-        public string OriginalWord { get; set; }
 
-        public int Timer { get; set; }
-        public string FullTimer
+        private int progressBar;
+        public int ProgressBar
         {
             get
             {
-                return "Timer: " + Timer.ToString();
+                return progressBar;
+            }
+            set
+            {
+                progressBar = value;
+                NotifyPropertyChanged("ProgressBar");
             }
         }
+
 
         private string gameState;
         public string GameState
@@ -86,19 +107,45 @@ namespace Hangman.ViewModel
             }
         }
 
-        public Game game;
+        #endregion
+
+        private Game game;
+
+        private int level;
+        private int wrongChoices;
+        private string originalWord;
+
+        private readonly System.Windows.Threading.DispatcherTimer timer;
+        private void DispatcherTimer_Tick(object sender, System.EventArgs e)
+        {
+            ++ProgressBar;
+            if (ProgressBar >= 30)
+            {
+                timer.Stop();
+                ProgressBar = 30;
+
+                GameState = "You have lost!";
+                MessageBox.Show("The word was " + originalWord + "!");
+
+                System.Threading.Thread.Sleep(2000);
+
+                ResetUi();
+                DisableKeys();
+            }
+        }
 
         public GameViewModel()
         {
-            Level = 1;
+            level = 1;
             HangmanImage = "..\\Images\\HangmanImages\\hang0.png";
             Category = "None";
 
-            Timer = 30;
-            GameState = "You have won!";
+            timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Tick += new System.EventHandler(DispatcherTimer_Tick);
+            timer.Interval = new System.TimeSpan(0, 0, 1);
         }
 
-        void InitializeKeys()
+        void EnableKeys()
         {
             DataProvider.Q.IsEnabled = true;
             DataProvider.W.IsEnabled = true;
@@ -127,6 +174,113 @@ namespace Hangman.ViewModel
             DataProvider.N.IsEnabled = true;
             DataProvider.M.IsEnabled = true;
         }
+        void DisableKeys()
+        {
+            DataProvider.Q.IsEnabled = false;
+            DataProvider.W.IsEnabled = false;
+            DataProvider.E.IsEnabled = false;
+            DataProvider.R.IsEnabled = false;
+            DataProvider.T.IsEnabled = false;
+            DataProvider.Y.IsEnabled = false;
+            DataProvider.U.IsEnabled = false;
+            DataProvider.I.IsEnabled = false;
+            DataProvider.O.IsEnabled = false;
+            DataProvider.P.IsEnabled = false;
+            DataProvider.A.IsEnabled = false;
+            DataProvider.S.IsEnabled = false;
+            DataProvider.D.IsEnabled = false;
+            DataProvider.F.IsEnabled = false;
+            DataProvider.G.IsEnabled = false;
+            DataProvider.H.IsEnabled = false;
+            DataProvider.J.IsEnabled = false;
+            DataProvider.K.IsEnabled = false;
+            DataProvider.L.IsEnabled = false;
+            DataProvider.Z.IsEnabled = false;
+            DataProvider.X.IsEnabled = false;
+            DataProvider.C.IsEnabled = false;
+            DataProvider.V.IsEnabled = false;
+            DataProvider.B.IsEnabled = false;
+            DataProvider.N.IsEnabled = false;
+            DataProvider.M.IsEnabled = false;
+        }
+
+        void InitializeGame()
+        {
+            EnableKeys();
+            game = new Game(Category);
+
+            timer.Start();
+            ProgressBar = 0;
+
+            wrongChoices = 0;
+            originalWord = game.originalWord;
+            UnderscoreWord = game.underscoreWord;
+            UnderscoreWord = FormatingWord();
+
+            GameState = "";
+            HangmanImage = "..\\Images\\HangmanImages\\hang0.png";
+        }
+
+        void ResetUi()
+        {
+            level = 1;
+            NotifyPropertyChanged("FullLevel");
+
+            ProgressBar = 0;
+
+            originalWord = "";
+            UnderscoreWord = "";
+            GameState = "";
+            Category = "None";
+
+            HangmanImage = "..\\Images\\HangmanImages\\hang0.png";
+        }
+
+        bool HasWon()
+        {
+            if (underscoreWord == originalWord)
+            {
+                timer.Stop();
+
+                UnderscoreWord = FormatingWord();
+                MessageBox.Show("You guessed the word!");
+
+                if (level != 5)
+                {
+                    ++level;
+                    NotifyPropertyChanged("FullLevel");
+                    InitializeGame();
+                }
+                else if (level == 5 && wrongChoices < 7)
+                {
+                    GameState = "You have won!";
+                    DisableKeys();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        bool HasLost()
+        {
+            if (wrongChoices == 7)
+            {
+                timer.Stop();
+
+                GameState = "You have lost!";
+                MessageBox.Show("The word was " + originalWord + "!");
+
+                System.Threading.Thread.Sleep(2000);
+
+                ResetUi();
+                DisableKeys();
+
+                return true;
+            }
+            return false;
+        }
 
         void IsCharPresent(char key)
         {
@@ -135,15 +289,23 @@ namespace Hangman.ViewModel
             if (found == true)
             {
                 UnderscoreWord = game.underscoreWord;
-                UnderscoreWord = FormatingUnderscoreWord();
+
+                if (HasWon())
+                    return;
+
+                UnderscoreWord = FormatingWord();
             }
             else
             {
+                ++wrongChoices;
+                HangmanImage = "..\\Images\\HangmanImages\\hang" + wrongChoices.ToString() + ".png";
 
+                if (HasLost())
+                    return;
             }
         }
 
-        private string FormatingUnderscoreWord()
+        private string FormatingWord()
         {
             string word = "";
             foreach (char letter in underscoreWord)
@@ -155,6 +317,8 @@ namespace Hangman.ViewModel
             word.Remove(word.Length - 1);
             return word;
         }
+
+        #region Commands
 
         #region New game
         private ICommand m_new;
@@ -176,11 +340,7 @@ namespace Hangman.ViewModel
                 return;
             }
 
-            InitializeKeys();
-            game = new Game(Category);
-            OriginalWord = game.originalWord;
-            UnderscoreWord = game.underscoreWord;
-            UnderscoreWord = FormatingUnderscoreWord();
+            InitializeGame();
         }
         #endregion
 
@@ -354,8 +514,8 @@ namespace Hangman.ViewModel
 
         public void IsPressedQ(object parameter)
         {
-            IsCharPresent('Q');
             DataProvider.Q.IsEnabled = false;
+            IsCharPresent('Q');
         }
         #endregion
 
@@ -373,8 +533,8 @@ namespace Hangman.ViewModel
 
         public void IsPressedW(object parameter)
         {
-            IsCharPresent('W');
             DataProvider.W.IsEnabled = false;
+            IsCharPresent('W');
         }
         #endregion
 
@@ -392,8 +552,8 @@ namespace Hangman.ViewModel
 
         public void IsPressedE(object parameter)
         {
-            IsCharPresent('E');
             DataProvider.E.IsEnabled = false;
+            IsCharPresent('E');
         }
         #endregion
 
@@ -411,8 +571,8 @@ namespace Hangman.ViewModel
 
         public void R_isPressed(object parameter)
         {
-            IsCharPresent('R');
             DataProvider.R.IsEnabled = false;
+            IsCharPresent('R');
         }
         #endregion
 
@@ -430,8 +590,8 @@ namespace Hangman.ViewModel
 
         public void T_isPressed(object parameter)
         {
-            IsCharPresent('T');
             DataProvider.T.IsEnabled = false;
+            IsCharPresent('T');
         }
         #endregion
 
@@ -449,8 +609,8 @@ namespace Hangman.ViewModel
 
         public void Y_isPressed(object parameter)
         {
-            IsCharPresent('Y');
             DataProvider.Y.IsEnabled = false;
+            IsCharPresent('Y');
         }
         #endregion
 
@@ -468,8 +628,8 @@ namespace Hangman.ViewModel
 
         public void U_isPressed(object parameter)
         {
-            IsCharPresent('U');
             DataProvider.U.IsEnabled = false;
+            IsCharPresent('U');
         }
         #endregion
 
@@ -487,8 +647,8 @@ namespace Hangman.ViewModel
 
         public void I_isPressed(object parameter)
         {
-            IsCharPresent('I');
             DataProvider.I.IsEnabled = false;
+            IsCharPresent('I');
         }
         #endregion
 
@@ -506,8 +666,8 @@ namespace Hangman.ViewModel
 
         public void O_isPressed(object parameter)
         {
-            IsCharPresent('O');
             DataProvider.O.IsEnabled = false;
+            IsCharPresent('O');
         }
         #endregion
 
@@ -525,8 +685,8 @@ namespace Hangman.ViewModel
 
         public void P_isPressed(object parameter)
         {
-            IsCharPresent('P');
             DataProvider.P.IsEnabled = false;
+            IsCharPresent('P');
         }
         #endregion
 
@@ -544,8 +704,8 @@ namespace Hangman.ViewModel
 
         public void A_isPressed(object parameter)
         {
-            IsCharPresent('A');
             DataProvider.A.IsEnabled = false;
+            IsCharPresent('A');
         }
         #endregion
 
@@ -563,8 +723,8 @@ namespace Hangman.ViewModel
 
         public void S_isPressed(object parameter)
         {
-            IsCharPresent('S');
             DataProvider.S.IsEnabled = false;
+            IsCharPresent('S');
         }
         #endregion
 
@@ -582,8 +742,8 @@ namespace Hangman.ViewModel
 
         public void D_isPressed(object parameter)
         {
-            IsCharPresent('D');
             DataProvider.D.IsEnabled = false;
+            IsCharPresent('D');
         }
         #endregion
 
@@ -601,8 +761,8 @@ namespace Hangman.ViewModel
 
         public void F_isPressed(object parameter)
         {
-            IsCharPresent('F');
             DataProvider.F.IsEnabled = false;
+            IsCharPresent('F');
         }
         #endregion
 
@@ -620,8 +780,8 @@ namespace Hangman.ViewModel
 
         public void G_isPressed(object parameter)
         {
-            IsCharPresent('G');
             DataProvider.G.IsEnabled = false;
+            IsCharPresent('G');
         }
         #endregion
 
@@ -639,8 +799,8 @@ namespace Hangman.ViewModel
 
         public void H_isPressed(object parameter)
         {
-            IsCharPresent('H');
             DataProvider.H.IsEnabled = false;
+            IsCharPresent('H');
         }
         #endregion
 
@@ -658,8 +818,8 @@ namespace Hangman.ViewModel
 
         public void J_isPressed(object parameter)
         {
-            IsCharPresent('J');
             DataProvider.J.IsEnabled = false;
+            IsCharPresent('J');
         }
         #endregion
 
@@ -677,8 +837,8 @@ namespace Hangman.ViewModel
 
         public void K_isPressed(object parameter)
         {
-            IsCharPresent('K');
             DataProvider.K.IsEnabled = false;
+            IsCharPresent('K');
         }
         #endregion
 
@@ -696,8 +856,8 @@ namespace Hangman.ViewModel
 
         public void L_isPressed(object parameter)
         {
-            IsCharPresent('L');
             DataProvider.L.IsEnabled = false;
+            IsCharPresent('L');
         }
         #endregion
 
@@ -715,8 +875,8 @@ namespace Hangman.ViewModel
 
         public void Z_isPressed(object parameter)
         {
-            IsCharPresent('Z');
             DataProvider.Z.IsEnabled = false;
+            IsCharPresent('Z');
         }
         #endregion
 
@@ -734,8 +894,8 @@ namespace Hangman.ViewModel
 
         public void X_isPressed(object parameter)
         {
-            IsCharPresent('X');
             DataProvider.X.IsEnabled = false;
+            IsCharPresent('X');
         }
         #endregion
 
@@ -753,8 +913,8 @@ namespace Hangman.ViewModel
 
         public void C_isPressed(object parameter)
         {
-            IsCharPresent('C');
             DataProvider.C.IsEnabled = false;
+            IsCharPresent('C');
         }
         #endregion
 
@@ -772,8 +932,8 @@ namespace Hangman.ViewModel
 
         public void V_isPressed(object parameter)
         {
-            IsCharPresent('V');
             DataProvider.V.IsEnabled = false;
+            IsCharPresent('V');
         }
         #endregion
 
@@ -791,8 +951,8 @@ namespace Hangman.ViewModel
 
         public void B_isPressed(object parameter)
         {
-            IsCharPresent('B');
             DataProvider.B.IsEnabled = false;
+            IsCharPresent('B');
         }
         #endregion
 
@@ -810,8 +970,8 @@ namespace Hangman.ViewModel
 
         public void IsPressedN(object parameter)
         {
-            IsCharPresent('N');
             DataProvider.N.IsEnabled = false;
+            IsCharPresent('N');
         }
         #endregion
 
@@ -829,9 +989,11 @@ namespace Hangman.ViewModel
 
         public void IsPressedM(object parameter)
         {
-            IsCharPresent('M');
             DataProvider.M.IsEnabled = false;
+            IsCharPresent('M');
         }
+        #endregion
+
         #endregion
 
         #endregion
