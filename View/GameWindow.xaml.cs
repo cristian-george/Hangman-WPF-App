@@ -9,6 +9,11 @@ namespace Hangman.View
         {
             InitializeComponent();
 
+            InitializeKeyboard();
+        }
+
+        public void InitializeKeyboard()
+        {
             #region Initialize keyboard
             DataProvider.Q = Q;
             DataProvider.W = W;
@@ -20,6 +25,7 @@ namespace Hangman.View
             DataProvider.I = I;
             DataProvider.O = O;
             DataProvider.P = P;
+
             DataProvider.A = A;
             DataProvider.S = S;
             DataProvider.D = D;
@@ -29,6 +35,7 @@ namespace Hangman.View
             DataProvider.J = J;
             DataProvider.K = K;
             DataProvider.L = L;
+
             DataProvider.Z = Z;
             DataProvider.X = X;
             DataProvider.C = C;

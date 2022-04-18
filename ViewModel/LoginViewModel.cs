@@ -98,6 +98,7 @@ namespace Hangman.ViewModel
         {
             SelectedUser.ImagePath = SelectedImage;
             GameWindow gameWindow = new GameWindow();
+            (gameWindow.DataContext as GameViewModel).User = SelectedUser;
             gameWindow.Show();
 
             System.Windows.Application.Current.Windows[0].Close();

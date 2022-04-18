@@ -7,6 +7,9 @@ namespace Hangman.Model
         public string Username { get; set; }
         public string ImagePath { get; set; }
 
+        public int GamesPlayed { get; set; }
+        public int GamesWon { get; set; }
+
         public User(string username, string imagePath = "")
         {
             Username = username;

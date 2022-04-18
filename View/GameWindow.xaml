@@ -65,13 +65,18 @@
             <MenuItem Header="Categories"
                       Background="AliceBlue">
                 <MenuItem Header="All categories"
+                          IsCheckable="True"
                           Command="{Binding Path=AllCategories}"/>
                 <MenuItem Header="Animals"
+                          IsCheckable="True"
                           Command="{Binding Path=Animals}"/>
-                <MenuItem Header="Plants"
-                          Command="{Binding Path=Plants}"/>
                 <MenuItem Header="Countries"
+                          IsCheckable="True"
                           Command="{Binding Path=Countries}"/>
+                <MenuItem Header="Plants"
+                          IsCheckable="True"
+                          Command="{Binding Path=Plants}"/>
+
             </MenuItem>
 
             <MenuItem Header="Help"
@@ -81,7 +86,7 @@
             </MenuItem>
         </Menu>
 
-        <TextBlock Text="Cristian"
+        <TextBlock Text="{Binding Path=User.Username}"
                    Foreground="Black"
                    FontSize="25"
                    FontWeight="Bold"
@@ -89,7 +94,7 @@
                    Grid.Column="1"
                    VerticalAlignment="Center"
                    Margin="0,0,0,50"/>
-        <TextBlock Text="Level 1"
+        <TextBlock Text="{Binding FullLevel}"
                    Foreground="Black"
                    FontSize="20"
                    FontWeight="Bold"
@@ -106,7 +111,7 @@
                  HorizontalAlignment="Right"
                  Margin="0,0,20,0">
             <Ellipse.Fill>
-                <ImageBrush ImageSource="..\Images\UserImages\user1.png"/>
+                <ImageBrush ImageSource="{Binding Path=User.ImagePath}"/>
             </Ellipse.Fill>
         </Ellipse>
 
@@ -122,7 +127,7 @@
         </TextBlock>
 
         <TextBlock Name="state"
-                   Text="You have won!"
+                   Text="{Binding Path=GameState}"
                    FontSize="20"
                    FontWeight="Bold"
                    Grid.Row="1"
@@ -139,7 +144,7 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="..\Images\HangmanImages\hang0.png"/>
+                <ImageBrush ImageSource="{Binding Path=HangmanImage}"/>
             </Rectangle.Fill>
         </Rectangle>
 
@@ -365,7 +370,7 @@
                     Command="{Binding Path=PressM}"/>
         </Grid>
 
-        <TextBlock Text="Category"
+        <TextBlock Text="{Binding Path=Category}"
                    FontSize="20"
                    FontWeight="Bold"
                    Grid.Row="3"
@@ -374,7 +379,7 @@
                    HorizontalAlignment="Center">
 
         </TextBlock>
-        <TextBlock Text="Word"
+        <TextBlock Text="{Binding Path=UnderscoreWord}"
                    FontSize="20"
                    FontWeight="Bold"
                    Grid.Row="3"
