@@ -60,6 +60,7 @@ namespace Hangman.ViewModel
             {
                 string username = response[0];
                 Users.Add(new User(username));
+                FileHelper.CreateFile(Users[Users.Count - 1]);
             }
         }
         #endregion
@@ -100,6 +101,8 @@ namespace Hangman.ViewModel
             GameWindow gameWindow = new GameWindow();
             (gameWindow.DataContext as GameViewModel).User = SelectedUser;
             gameWindow.Show();
+
+            FileHelper.CreateFile(SelectedUser);
 
             System.Windows.Application.Current.Windows[0].Close();
         }

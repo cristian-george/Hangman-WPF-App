@@ -55,7 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\DataProvider.cs" />
+    <Compile Include="Commands\KeyboardCommands.cs" />
+    <Compile Include="Commands\MenuCommands.cs" />
+    <Compile Include="Model\FileHelper.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\ImageHelper.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />

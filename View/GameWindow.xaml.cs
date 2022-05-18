@@ -1,63 +1,40 @@
-﻿using Hangman.Model;
+﻿using Hangman.ViewModel;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Hangman.View
 {
     public partial class GameWindow : Window
     {
+        private readonly GameViewModel gameViewModel;
+
         public GameWindow()
         {
             InitializeComponent();
 
+            gameViewModel = new GameViewModel();
+            DataContext = gameViewModel;
+            menu.DataContext = gameViewModel.menuCommands;
+            keyboard.DataContext = gameViewModel.keyboardCommands;
+
             InitializeKeyboard();
-            InitializeRectangles();
         }
 
         public void InitializeKeyboard()
         {
-            #region Keyboard
-            DataProvider.Q = Q;
-            DataProvider.W = W;
-            DataProvider.E = E;
-            DataProvider.R = R;
-            DataProvider.T = T;
-            DataProvider.Y = Y;
-            DataProvider.U = U;
-            DataProvider.I = I;
-            DataProvider.O = O;
-            DataProvider.P = P;
+            gameViewModel.Buttons = new Dictionary<char, Button>
+            {
+                { 'Q', Q }, { 'W', W }, { 'E', E }, { 'R', R }, { 'T', T }, { 'Y', Y }, { 'U', U }, { 'I', I }, { 'O', O }, { 'P', P },
+                     { 'A', A }, { 'S', S }, { 'D', D }, { 'F', F }, { 'G', G }, { 'H', H }, { 'J', J }, { 'K', K }, { 'L', L },
+                          { 'Z', Z }, { 'X', X }, { 'C', C }, { 'V', V }, { 'B', B }, { 'N', N }, { 'M', M }
+            };
 
-            DataProvider.A = A;
-            DataProvider.S = S;
-            DataProvider.D = D;
-            DataProvider.F = F;
-            DataProvider.G = G;
-            DataProvider.H = H;
-            DataProvider.J = J;
-            DataProvider.K = K;
-            DataProvider.L = L;
-
-            DataProvider.Z = Z;
-            DataProvider.X = X;
-            DataProvider.C = C;
-            DataProvider.V = V;
-            DataProvider.B = B;
-            DataProvider.N = N;
-            DataProvider.M = M;
-            #endregion
-        }
-
-        public void InitializeRectangles()
-        {
-            #region Rectangles
-            DataProvider.Rectangle1 = Rectangle1;
-            DataProvider.Rectangle2 = Rectangle2;
-            DataProvider.Rectangle3 = Rectangle3;
-            DataProvider.Rectangle4 = Rectangle4;
-            DataProvider.Rectangle5 = Rectangle5;
-            DataProvider.Rectangle6 = Rectangle6;
-            DataProvider.Rectangle7 = Rectangle7;
-            #endregion
+            foreach (var button in gameViewModel.Buttons)
+            {
+                button.Value.CommandParameter = button.Key;
+                button.Value.IsEnabled = false;
+            }
         }
     }
 }

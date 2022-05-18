@@ -7,6 +7,8 @@ namespace Hangman.Model
         public string originalWord;
         public string underscoreWord;
 
+        public Game() { }
+
         public Game(string category)
         {
             Collection<string> words = GetWordsByCategory(category);

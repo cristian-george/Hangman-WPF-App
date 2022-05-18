@@ -1,5 +1,4 @@
 ﻿using Hangman.ViewModel;
-using System;
 
 namespace Hangman.Model
 {

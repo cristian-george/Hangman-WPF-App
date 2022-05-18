@@ -15,10 +15,6 @@
         ResizeMode="CanMinimize"
         Icon="..\Images\Icon.png">
 
-    <Window.DataContext>
-        <local:GameViewModel/>
-    </Window.DataContext>
-
     <Grid Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -35,7 +31,8 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
-        <Menu Background="MediumPurple"
+        <Menu x:Name="menu"
+              Background="MediumPurple"
               Grid.Row="0"
               Grid.ColumnSpan="5"
               FontSize="14">
@@ -65,13 +62,17 @@
             <MenuItem Header="Categories"
                       Background="AliceBlue">
                 <MenuItem Header="All categories"
-                          Command="{Binding Path=AllCategories}"/>
+                          Command="{Binding Path=SelectCategory}"
+                          CommandParameter="All Categories"/>
                 <MenuItem Header="Animals"
-                          Command="{Binding Path=Animals}"/>
+                          Command="{Binding Path=SelectCategory}"
+                          CommandParameter="Animals"/>
                 <MenuItem Header="Countries"
-                          Command="{Binding Path=Countries}"/>
+                          Command="{Binding Path=SelectCategory}"
+                          CommandParameter="Countries"/>
                 <MenuItem Header="Plants"
-                          Command="{Binding Path=Plants}"/>
+                          Command="{Binding Path=SelectCategory}"
+                          CommandParameter="Plants"/>
 
             </MenuItem>
 
@@ -125,21 +126,22 @@
         <ProgressBar Grid.Row="1"
                      Grid.Column="3"
                      Height="25"
-                     Width="200"
-                     HorizontalAlignment="Left"
-                     Margin="90,5,0,0"
-                     Maximum="30"
+                     Width="300"
+                     HorizontalAlignment="Center"
+                     Margin="0,5,0,0"
+                     Maximum="60"
                      SmallChange="1"
+                     Foreground="MediumSlateBlue"
                      Value="{Binding Path=ProgressBar}"/>
 
         <TextBlock Text="{Binding Path=GameState}"
                    FontSize="20"
                    FontWeight="Bold"
-                   Grid.Row="1"
+                   Grid.Row="2"
                    Grid.Column="3"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Right"
-                   Margin="0,0,20,0">
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Center"
+                   Margin="0,20,0,0">
         </TextBlock>
 
         <Rectangle Grid.Row="2"
@@ -153,100 +155,11 @@
             </Rectangle.Fill>
         </Rectangle>
 
-        <Grid Grid.Row="2"
-              Grid.Column="3"
-              Height="60"
-              VerticalAlignment="Top"
-              Margin="0,20,0,0">
-            <Rectangle x:Name="Rectangle1"
-                        Height="40"
-                        Width="40"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Visibility="Hidden"
-                        Margin="0,10,360,0">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="..\Images\HangmanImages\wrong.png"/>
-                </Rectangle.Fill>
-            </Rectangle>
-
-            <Rectangle x:Name="Rectangle2"
-                        Height="40"
-                        Width="40"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Visibility="Hidden"
-                        Margin="0,10,240,0">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="..\Images\HangmanImages\wrong.png"/>
-                </Rectangle.Fill>
-            </Rectangle>
-
-            <Rectangle x:Name="Rectangle3"
-                        Height="40"
-                        Width="40"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Visibility="Hidden"
-                        Margin="0,10,120,0">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="..\Images\HangmanImages\wrong.png"/>
-                </Rectangle.Fill>
-            </Rectangle>
-
-            <Rectangle x:Name="Rectangle4"
-                        Height="40"
-                        Width="40"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Visibility="Hidden"
-                        Margin="0,10,0,0">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="..\Images\HangmanImages\wrong.png"/>
-                </Rectangle.Fill>
-            </Rectangle>
-
-            <Rectangle x:Name="Rectangle5"
-                        Height="40"
-                        Width="40"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Visibility="Hidden"
-                        Margin="120,10,0,0">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="..\Images\HangmanImages\wrong.png"/>
-                </Rectangle.Fill>
-            </Rectangle>
-
-            <Rectangle x:Name="Rectangle6"
-                        Height="40"
-                        Width="40"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Visibility="Hidden"
-                        Margin="240,10,0,0">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="..\Images\HangmanImages\wrong.png"/>
-                </Rectangle.Fill>
-            </Rectangle>
-
-            <Rectangle x:Name="Rectangle7"
-                        Height="40"
-                        Width="40"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        Visibility="Hidden"
-                        Margin="360,10,0,0">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="..\Images\HangmanImages\wrong.png"/>
-                </Rectangle.Fill>
-            </Rectangle>
-        </Grid>
-
-        <Grid Grid.Row="2"
+        <Grid x:Name="keyboard"
+              Grid.Row="2"
               Grid.Column="3"
               VerticalAlignment="Bottom"
-              Height="120"
+              Height="150"
               Margin="0,0,0,10">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -259,160 +172,134 @@
                     Content="Q" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="0,10,405,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressQ}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="W"
                     Content="W" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="0,10,315,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressW}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="E"
                     Content="E" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="0,10,225,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressE}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="R"
                     Content="R" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="0,10,135,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressR}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="T"
                     Content="T" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="0,10,45,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressT}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="Y"
                     Content="Y" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="45,10,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressY}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="U"
                     Content="U" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="135,10,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressU}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="I"
                     Content="I" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="225,10,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressI}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="O"
                     Content="O" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="315,10,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressO}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="P"
                     Content="P" Height="30" Width="30"
                     VerticalAlignment="Top"
                     Margin="405,10,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressP}"/>
+                    Command="{Binding Path=PressKey}"/>
 
             <Button x:Name="A"
                     Content="A" Height="30" Width="30"
                     VerticalAlignment="Center"
                     Margin="0,0,360,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressA}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="S"
                     Content="S" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="0,0,270,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressS}"/>
+                    Margin="0,0,270,0" 
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="D"
                     Content="D" Height="30" Width="30"
                     VerticalAlignment="Center"
-                    Margin="0,0,180,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressD}"/>
+                    Margin="0,0,180,0" 
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="F"
                     Content="F" Height="30" Width="30"
                     VerticalAlignment="Center"
                     Margin="0,0,90,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressF}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="G"
                     Content="G" Height="30" Width="30"
                     VerticalAlignment="Center"
                     Margin="0,0,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressG}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="H"
                     Content="H" Height="30" Width="30"
                     VerticalAlignment="Center"
                     Margin="90,0,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressH}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="J"
                     Content="J" Height="30" Width="30"
                     VerticalAlignment="Center"
                     Margin="180,0,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressJ}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="K"
                     Content="K" Height="30" Width="30"
                     VerticalAlignment="Center"
                     Margin="270,0,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressK}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="L"
                     Content="L" Height="30" Width="30"
                     VerticalAlignment="Center"
                     Margin="360,0,0,0"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressL}"/>
+                    Command="{Binding Path=PressKey}"/>
 
             <Button x:Name="Z"
                     Content="Z" Height="30" Width="30"
                     VerticalAlignment="Bottom"
                     Margin="0,0,315,10"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressZ}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="X"
                     Content="X" Height="30" Width="30"
                     VerticalAlignment="Bottom"
                     Margin="0,0,225,10"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressX}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="C"
                     Content="C" Height="30" Width="30"
                     VerticalAlignment="Bottom"
                     Margin="0,0,135,10"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressC}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="V"
                     Content="V" Height="30" Width="30"
                     VerticalAlignment="Bottom"
-                    Margin="0,0,45,10"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressV}"/>
+                    Margin="0,0,45,10" 
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="B"
                     Content="B" Height="30" Width="30"
                     VerticalAlignment="Bottom"
                     Margin="45,0,0,10"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressB}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="N"
                     Content="N" Height="30" Width="30"
                     VerticalAlignment="Bottom"
                     Margin="135,0,0,10"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressN}"/>
+                    Command="{Binding Path=PressKey}"/>
             <Button x:Name="M"
                     Content="M" Height="30" Width="30"
                     VerticalAlignment="Bottom"
                     Margin="225,0,0,10"
-                    IsEnabled="False"
-                    Command="{Binding Path=PressM}"/>
+                    Command="{Binding Path=PressKey}"/>
         </Grid>
 
         <TextBlock Text="{Binding Path=Category}"
